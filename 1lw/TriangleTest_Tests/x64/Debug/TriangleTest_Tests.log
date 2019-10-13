@@ -1,5 +1,0 @@
-﻿  main.cpp
-C:\Users\makss\source\repos\TriangleTest_Tests\main.cpp(5,20): warning C4129: .: неизвестная escape-последовательность
-C:\Users\makss\source\repos\TriangleTest_Tests\main.cpp(5,20): warning C4129: T: неизвестная escape-последовательность
-C:\Users\makss\source\repos\TriangleTest_Tests\main.cpp(5,20): warning C4129: R: неизвестная escape-последовательность
-  TriangleTest_Tests.vcxproj -> C:\Users\makss\source\repos\TriangleTest\x64\Debug\TriangleTest_Tests.exe
