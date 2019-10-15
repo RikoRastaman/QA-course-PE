@@ -6,7 +6,7 @@
 #include <string>
 
 std::string getOutput(std::string& arguments) {
-	std::string result;
+	std::string result = "";
 	std::string cmd = "TriangleTest.exe " + arguments;
 	std::array<char, 256> buffer;
 	FILE* _pipe;
