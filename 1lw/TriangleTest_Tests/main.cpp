@@ -5,7 +5,6 @@
 #include "windows.h"
 #include <string>
 
-
 std::string getOutput(std::string& arguments) {
 	std::string result;
 	std::string cmd = "TriangleTest.exe " + arguments;
@@ -21,18 +20,19 @@ std::string getOutput(std::string& arguments) {
 int main(int argc, char* argv[]) {
 	setlocale(LC_ALL, "Russian");
 	std::string expectedOutput = "";
+	std::string arguments = "";
+	int counter = 0;
 	if (argc != 2) {
 		std::cout << "Enter test file name!";
 		return 0;
 	}
+
 	std::fstream input(argv[1]);
 	std::ofstream output;
-	std::string arguments;
-	int counter = 0;
 	while (getline(input, arguments)) {
 		counter++;
 		getline(input, expectedOutput);
-		std::cout << "Test" << counter << ": " + expectedOutput + " = " + getOutput(arguments) << std::endl;
+		std::cout << "Test" << counter << ": " << getOutput(arguments) + " = " + expectedOutput << std::endl;
 		if (expectedOutput == getOutput(arguments)) {
 			std::cout << "Passed" << std::endl;
 		}
