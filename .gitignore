@@ -5,3 +5,5 @@
 *.obj
 1lw/TriangleTest/x64/
 1lw/TriangleTest_Tests/TriangleTest_Tests.vcxproj.user
+*.xml
+*.iml
