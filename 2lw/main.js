@@ -4,7 +4,9 @@ const fs = require('fs');
 
 const request = require("request-promise-native");
 
-var STREAM = fs.createWriteStream("./test.txt");
+var STREAM_SUCCESS = fs.createWriteStream("./testSuccess.txt");
+var STREAM_ERROR = fs.createWriteStream("./testError.txt");
+
 const MAIN_URL = "http://52.136.215.164/";
 const URL = `${MAIN_URL}/broken-links`;
 
@@ -17,8 +19,8 @@ async function main() {
     console.log("Testing  Start..");
     await testLink(URL + "/");
 
-    STREAM.write(`\n${ok}\n${ Date().toString()}` + '\n');
-    STREAM.write(`\n${errors}\n${ Date().toString()}` + '\n');
+    STREAM_SUCCESS.write(`\n${ok}\n${ Date().toString()}` + '\n');
+    STREAM_ERROR.write(`\n${errors}\n${ Date().toString()}` + '\n');
 
     console.log("Testing Done!");
 }
@@ -32,11 +34,11 @@ async function testLink(url) {
     try {
         const response = await request(url, properties);
         ok++;
-        STREAM.write(`${response.statusCode}\t${url}` + '\n');
+        STREAM_SUCCESS.write(`${response.statusCode}\t${url}` + '\n');
         await testChildLink(response.body);
     } catch (error) {
         errors++;
-        STREAM.write(`${error.statusCode}\t${url}` + '\n');
+        STREAM_ERROR.write(`${error.statusCode}\t${url}` + '\n');
     }
 }
 

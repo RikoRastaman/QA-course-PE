@@ -1,0 +1,12 @@
+200	http://52.136.215.164//broken-links/
+200	http://52.136.215.164//broken-links/index.html
+200	http://52.136.215.164//broken-links/about.html
+200	http://52.136.215.164//broken-links/work.html
+200	http://52.136.215.164//broken-links/pricing.html
+200	http://52.136.215.164//broken-links/blog.html
+200	http://52.136.215.164//broken-links/contact.html
+200	http://52.136.215.164//broken-links/blog-single.html
+204	http://52.136.215.164//broken-links/../links/no204content.php
+
+9
+Fri Nov 15 2019 17:36:50 GMT+0300 (GMT+03:00)
