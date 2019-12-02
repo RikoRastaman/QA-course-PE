@@ -1,3 +1,4 @@
+import java.security.cert.Extension;
 import java.util.Scanner;
 
 public class calc {
@@ -5,9 +6,9 @@ public class calc {
 
     static float result = 0;
 
-    public static float getOperand(){
+    public static float getOperand() {
         float num;
-        if(scanner.hasNextFloat()){
+        if (scanner.hasNextFloat()) {
             num = scanner.nextFloat();
         } else {
             System.out.println("Вы допустили ошибку при вводе числа. Попробуйте еще раз.");
@@ -17,21 +18,51 @@ public class calc {
         return num;
     }
 
-    public static char getOperation(){
+    public static char getOperation() {
         System.out.println("Введите операцию:");
         char operation;
-        if(scanner.hasNext()){
+        if (scanner.hasNext()) {
             operation = scanner.next().charAt(0);
         } else {
-            System.out.println("Вы допустили ошибку при вводе операции. Попробуйте еще раз.");
-            scanner.next();
-            operation = getOperation();
+            throw new RuntimeException("There no such operation");
         }
         return operation;
     }
 
     public static void calculateResult(float firstOperand, float secondOperand, char operation) {
-        result = firstOperand + secondOperand;
+        switch (operation) {
+            case '+':
+                result = add(firstOperand, secondOperand);
+                break;
+            case '-':
+                result = subtract(firstOperand, secondOperand);
+                break;
+            case'*':
+                result = multiply(firstOperand, secondOperand);
+                break;
+            case'%':
+                result = mod(firstOperand, secondOperand);
+                break;
+            default:
+                throw new RuntimeException("There no such operation");
+        }
+
+    }
+
+    public static float add(float firstOperand, float secondOperand) {
+        return firstOperand + secondOperand;
+    }
+
+    public static float subtract(float firstOperand, float secondOperand) {
+        return firstOperand - secondOperand;
+    }
+
+    public static float multiply(float firstOperand, float secondOperand) {
+        return firstOperand * secondOperand;
+    }
+
+    public static float mod(float firstOperand, float secondOperand) {
+        return firstOperand % secondOperand;
     }
 
     public static float getResult() {
@@ -40,10 +71,17 @@ public class calc {
 
     public static void main(String[] args) {
         calc calculator = new calc();
+        System.out.println("Введите операнды:");
         float firstOperand = calculator.getOperand();
         float secondOperand = calculator.getOperand();
-        char operation = getOperation();
-        calculateResult(firstOperand, secondOperand, operation);
+        try {
+            char operation = getOperation();
+            calculateResult(firstOperand, secondOperand, operation);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return;
+        }
         System.out.println("result is: " + getResult());
+        return;
     }
 }
