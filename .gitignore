@@ -6,7 +6,6 @@
 1lw/TriangleTest/x64/
 1lw/TriangleTest_Tests/TriangleTest_Tests.vcxproj.user
 *.xml
-*.iml
 2lw/node_modules/
 5lw/calc/.idea/$PRODUCT_WORKSPACE_FILE$
 5lw/calc/out/
