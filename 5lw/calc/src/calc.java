@@ -7,19 +7,18 @@ public class calc {
     static float result = 0;
 
     public static float getOperand() {
-        float num;
-        if (scanner.hasNextFloat()) {
-            num = scanner.nextFloat();
-        } else {
-            System.out.println("Вы допустили ошибку при вводе числа. Попробуйте еще раз.");
-            scanner.next();
-            num = getOperand();
+        if (scanner.hasNext()) {
+            try {
+                return Float.valueOf(scanner.next());
+            } catch (NumberFormatException ex) {
+                System.out.println("Operand should be a number");
+                throw new NumberFormatException();
+            }
         }
-        return num;
+        return 0;
     }
 
     public static char getOperation() {
-        System.out.println("Введите операцию:");
         char operation;
         if (scanner.hasNext()) {
             operation = scanner.next().charAt(0);
@@ -37,10 +36,10 @@ public class calc {
             case '-':
                 result = subtract(firstOperand, secondOperand);
                 break;
-            case'*':
+            case '*':
                 result = multiply(firstOperand, secondOperand);
                 break;
-            case'%':
+            case '%':
                 result = mod(firstOperand, secondOperand);
                 break;
             default:
@@ -69,19 +68,4 @@ public class calc {
         return result;
     }
 
-    public static void main(String[] args) {
-        calc calculator = new calc();
-        System.out.println("Введите операнды:");
-        float firstOperand = calculator.getOperand();
-        float secondOperand = calculator.getOperand();
-        try {
-            char operation = getOperation();
-            calculateResult(firstOperand, secondOperand, operation);
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return;
-        }
-        System.out.println("result is: " + getResult());
-        return;
-    }
 }
