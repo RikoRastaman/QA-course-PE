@@ -1,17 +1,27 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import org.junit.Assert;
-
-import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class calcTest {
+    @Test
+    void Scanner_GetANumber_ReturnSAmeNumber() {
+        calc.scanner = new Scanner("99");
+        String required = "99";
+        String actual = calc.scanner.next();
+        assertEquals(required, actual);
+    }
+
+    @Test
+    void GetResult_GetANumber_ReturnSameNumber() {
+        calc.result = 7;
+        float actualResult = calc.getResult();
+        float required = 7;
+        assertEquals(required, actualResult);
+    }
 
     @Test
     void GetOperand_Natural_ReturnSameNumber() {
@@ -60,24 +70,89 @@ class calcTest {
     }
 
     @Test
+    void GetOperand_EmptyString_NumberFormatException() throws NumberFormatException{
+        calc.scanner = new Scanner("");
+        try {
+            calc.getOperand();
+            Assert.fail("Expected IOException");
+        } catch (NumberFormatException ex) {
+            Assert.assertNotEquals("", ex.getMessage());
+        }
+    }
+
+    @Test
     void CalculateResult_AddNatural_ReturnNatural() {
         calc.calculateResult(1, 2, '+');
-        float expected = 3;
-        assertEquals(calc.getResult(), expected);
+        float required = 3;
+        assertEquals(required, calc.getResult());
     }
 
     @Test
     void CalculateResult_AddNegative_ReturnNegative() {
         calc.calculateResult(-1, -2, '+');
-        float expected = -3;
-        assertEquals(calc.getResult(), expected);
+        float required = -3;
+        assertEquals(required, calc.getResult());
     }
 
     @Test
-    void calculateResult() {
+    void GetOperation_GetAddition_ReturnAdd() {
+        calc.scanner = new Scanner("+");
+        assertEquals('+', calc.getOperation());
     }
 
     @Test
-    void getResult() {
+    void GetOperation_GetNotOperation_ThrowsRuntimeException() throws RuntimeException{
+        calc.scanner = new Scanner("");
+        try {
+            calc.getOperation();
+            fail("Expected RuntimeException");
+        } catch (RuntimeException ex) {
+            assertNotEquals("", ex.getMessage());
+        }
+    }
+
+    @Test
+    void CalculateResult_AddPositiveNumbers_ReturnsPositiveNumber() {
+        calc.calculateResult(1, 2, '+');
+        float actual = calc.result;
+        assertEquals(3, actual);
+    }
+
+    @Test
+    void CalculateResult_SubtractPositiveNumbers_ReturnsNegativeNumber() {
+        calc.calculateResult(1, 5, '-');
+        float actual = calc.result;
+        assertEquals(-4, actual);
+    }
+
+    @Test
+    void CalculateResult_DivideByZero_ReturnsNaN() {
+        calc.calculateResult(1, 0, '%');
+        float actual = calc.result;
+        assertEquals(Float.NaN, actual);
+    }
+
+    @Test
+    void CalculateResult_Multiply_ReturnNumber() {
+        calc.calculateResult(99, 100, '*');
+        float actual = calc.result;
+        assertEquals(9900, actual);
+    }
+
+    @Test
+    void CalculateResult_MultiplyToZero_ReturnZero() {
+        calc.calculateResult(99, 0, '*');
+        float actual = calc.result;
+        assertEquals(0, actual);
+    }
+
+    @Test
+    void CalculateResult_NotAnOperation_ReturnError() throws RuntimeException{
+        try {
+            calc.calculateResult(10, 20, 'F');
+            fail("Exception RuntimeException Expected");
+        } catch (RuntimeException ex) {
+            assertNotEquals("", ex.getMessage());
+        }
     }
 }

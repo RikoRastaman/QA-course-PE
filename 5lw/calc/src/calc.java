@@ -15,7 +15,7 @@ public class calc {
                 throw new NumberFormatException();
             }
         }
-        return 0;
+        throw new NumberFormatException();
     }
 
     public static char getOperation() {
@@ -23,7 +23,7 @@ public class calc {
         if (scanner.hasNext()) {
             operation = scanner.next().charAt(0);
         } else {
-            throw new RuntimeException("There no such operation");
+            throw new RuntimeException("Please Enter an operation");
         }
         return operation;
     }
