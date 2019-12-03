@@ -1,2 +1,2 @@
-# QA_course
+# QC_course
  
