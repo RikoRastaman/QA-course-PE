@@ -1,2 +1,1 @@
-lib:
-junit 4.12
+project structure -> libs: junit 4.12
