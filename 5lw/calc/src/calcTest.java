@@ -101,7 +101,7 @@ class calcTest {
         assertEquals('+', calc.getOperation(), "Получить операцию, сложение");
     }
 
-    @Test (expected = IOException.class)
+    @Test
     void GetOperation_GetNotOperation_ThrowsRuntimeException() throws RuntimeException{
         calc.scanner = new Scanner("");
         try {
