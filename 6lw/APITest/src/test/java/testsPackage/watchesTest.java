@@ -48,17 +48,17 @@ public class watchesTest {
 
     @Test
     public void APIDeleteProduct_ProductDeleted() {
-        String IDtoDelete = "504";
-        given().
-                param("id", IDtoDelete).
-                auth().
-                preemptive().
-                basic(LOGIN, PASSWORD).
-                when().
-                get(GET_DELETE_BY_ID).
-                then().
-                assertThat().
-                statusCode(200);
+        String IDtoDelete = "507";
+            given().
+                    param("id", IDtoDelete).
+                    auth().
+                    preemptive().
+                    basic(LOGIN, PASSWORD).
+                    when().
+                    get(GET_DELETE_BY_ID).
+                    then().
+                    assertThat().
+                    statusCode(200);
     }
 
     @Test
@@ -83,5 +83,22 @@ public class watchesTest {
                 assertThat().
                 statusCode(200).extract().path("status");
         assertEquals(1, status);
+    }
+
+    @Test
+    public void DeleteAllCreatedTests() {
+        String IDtoDelete = "507";
+        for (int IDtoDelete2 = 505; IDtoDelete2 < 511; IDtoDelete2++) {
+            given().
+                    param("id", IDtoDelete2).
+                    auth().
+                    preemptive().
+                    basic(LOGIN, PASSWORD).
+                    when().
+                    get(GET_DELETE_BY_ID).
+                    then().
+                    assertThat().
+                    statusCode(200);
+        }
     }
 }
