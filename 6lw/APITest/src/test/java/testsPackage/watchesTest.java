@@ -64,18 +64,24 @@ public class watchesTest {
     @Test
     public void POSTProduct_WithJSONParams() {
         RestAssured.baseURI = "http://52.136.215.164:9000/api/addproduct";
-        given().contentType("application/json").body(JSONParams.Params().toString())
-                .when().
+        given().
+                contentType("application/json").
+                body(JSONParams.Params().toString()).
+                when().
                 post("").then();
     }
 
     @Test
     public void POSTProduct_WithJSONParams_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = "http://52.136.215.164:9000/api/addproduct";
-        int status = given().contentType("application/json").body(JSONParams.Params().toString())
-                .when().
-                post("").then().assertThat().statusCode(200).extract()
-                .path("status");
+        int status = given().
+                contentType("application/json").
+                body(JSONParams.Params().toString()).
+                when().
+                post("").
+                then().
+                assertThat().
+                statusCode(200).extract().path("status");
         assertEquals(1, status);
     }
 }
