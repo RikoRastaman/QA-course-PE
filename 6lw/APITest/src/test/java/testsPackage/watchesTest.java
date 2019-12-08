@@ -49,16 +49,16 @@ public class watchesTest {
     @Test
     public void APIDeleteProduct_ProductDeleted() {
         String IDtoDelete = "507";
-            given().
-                    param("id", IDtoDelete).
-                    auth().
-                    preemptive().
-                    basic(LOGIN, PASSWORD).
-                    when().
-                    get(GET_DELETE_BY_ID).
-                    then().
-                    assertThat().
-                    statusCode(200);
+        given().
+                param("id", IDtoDelete).
+                auth().
+                preemptive().
+                basic(LOGIN, PASSWORD).
+                when().
+                get(GET_DELETE_BY_ID).
+                then().
+                assertThat().
+                statusCode(200);
     }
 
     @Test
