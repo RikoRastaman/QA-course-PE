@@ -20,11 +20,22 @@ public class watchesTest {
     static int ID_OF_NOT_TEST_PRODUCT = 269;
     static String LOGIN = "test177";
     static String PASSWORD = "test177";
-    public int firstTestID = 591;
-    public int lastTestID = 602;
+
+    static class testsIDs {
+        static int firstTestID = 269;
+        static int lastTestID = 633;
+
+        static void setFirstID(int ID) {
+            firstTestID = ID;
+        }
+
+        static void setLastID(int ID) {
+            lastTestID = ID;
+        }
+    }
 
     @Test
-    public void test1_GetAllProducts_ResponseHeaderAndStatusCode_ShouldBeCorrect() {
+    public void test01_GetAllProducts_ResponseHeaderAndStatusCode_ShouldBeCorrect() {
         given().
                 when().
                 get(GET_ALL_PRODUCTS).
@@ -37,7 +48,7 @@ public class watchesTest {
     }
 
     @Test
-    public void test2_BasicAuthenticationToAddProduct_ShouldBeGivenAccess() {
+    public void test02_BasicAuthenticationToAddProduct_ShouldBeGivenAccess() {
         given().
                 auth().
                 preemptive().
@@ -51,7 +62,7 @@ public class watchesTest {
     }
 
     @Test
-    public void test3_POSTProductWithAllValidParams_GetResponseStatus_StatusIs1() {
+    public void test03_POSTProductWithAllValidParams_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
 
@@ -65,11 +76,12 @@ public class watchesTest {
                 .extract().response();
 
         int IDProduct = body.path("id");
+        testsIDs.setFirstID(IDProduct);
         System.out.println("Product with valid params added, with ID:" + IDProduct);
     }
 
     @Test
-    public void test4_POSTProductWithRussianTitle_GetResponseStatus_StatusIs1() {
+    public void test04_POSTProductWithRussianTitle_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("title", "тест на русском 177");
@@ -84,11 +96,12 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with russian title added, with ID:" + IDProduct);
     }
 
     @Test
-    public void test5_POSTProductWithEmptyTitle_GetResponseStatus_StatusIs1() {
+    public void test05_POSTProductWithEmptyTitle_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("title", "");
@@ -103,11 +116,12 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with empty title added, with ID:" + IDProduct);
     }
 
     @Test
-    public void test6_POSTProductWithCategoryOutOfRange_GetResponseStatus_StatusIs1() {
+    public void test06_POSTProductWithCategoryOutOfRange_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("category", "16");
@@ -122,11 +136,12 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with category out of range added, with ID:" + IDProduct);
     }
 
     @Test
-    public void test7_POSTProductWithNegativeCategory_GetResponseStatus_StatusIs1() {
+    public void test07_POSTProductWithNegativeCategory_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("category", "-2");
@@ -141,11 +156,12 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with negative category added, with ID:" + IDProduct);
     }
 
     @Test
-    public void test8_POSTProductWithNegativePrice_GetResponseStatus_StatusIs1() {
+    public void test08_POSTProductWithNegativePrice_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("price", "-100");
@@ -160,11 +176,12 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with negative price added, with ID:" + IDProduct);
     }
 
     @Test
-    public void test9_POSTProductWithZeroPrice_GetResponseStatus_StatusIs1() {
+    public void test09_POSTProductWithZeroPrice_GetResponseStatus_StatusIs1() {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("price", "0");
@@ -179,6 +196,7 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with zero price added, with ID:" + IDProduct);
     }
 
@@ -198,6 +216,7 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with MAX price added, overflow of int, with ID:" + IDProduct);
     }
 
@@ -218,6 +237,7 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product with old price least then actual added, with ID:" + IDProduct);
     }
 
@@ -237,6 +257,7 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product With Status 0 added, with ID:" + IDProduct);
     }
 
@@ -256,6 +277,7 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product With Hit 0 added, with ID:" + IDProduct);
     }
 
@@ -277,13 +299,46 @@ public class watchesTest {
                 extract().body();
 
         int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
         System.out.println("Product With keys, with ID:" + IDProduct);
     }
 
     @Test
+    public void test15_EditProductTitle_GetResponseStatus_StatusIs1() {
+        RestAssured.baseURI = POST_ADD_PRODUCT;
+        JSONParams params = new JSONParams();
+
+        ResponseBodyExtractionOptions body = given().
+                contentType("application/json").
+                body(params.GetParams().toString()).
+                when().
+                post("").
+                then().
+                body("status", equalTo(1)).
+                extract().body();
+
+        int IDProduct = body.path("id");
+        testsIDs.setLastID(IDProduct);
+
+        RestAssured.baseURI = POST_EDIT_PRODUCT;
+        params.ChangeValue("id", IDProduct);
+        params.ChangeValue("title", "edited title");
+
+        given().
+                contentType("application/json").
+                body(params.GetParams().toString()).
+                when().
+                post("").
+                then().
+                body("status", equalTo(1)).
+                extract().body();
+        System.out.println("Product Title Was Edited, with ID:" + IDProduct);
+    }
+
+    @Test
     public void test99_DeleteAllCreatedTests() {
-        if (firstTestID > ID_OF_NOT_TEST_PRODUCT) {
-            for (int IDtoDelete = firstTestID; IDtoDelete <= lastTestID; IDtoDelete++)
+        if (testsIDs.firstTestID > ID_OF_NOT_TEST_PRODUCT) {
+            for (int IDtoDelete = testsIDs.firstTestID; IDtoDelete <= testsIDs.lastTestID; IDtoDelete++)
                 given().
                         param("id", IDtoDelete).
                         auth().
