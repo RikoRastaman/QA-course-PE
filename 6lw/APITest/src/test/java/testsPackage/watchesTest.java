@@ -1,11 +1,16 @@
 package testsPackage;
 
 import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.ResponseBodyExtractionOptions;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static io.restassured.RestAssured.given;
@@ -17,21 +22,26 @@ public class watchesTest {
     static String GET_DELETE_BY_ID = "http://52.136.215.164:9000/api/deleteproduct";
     static String POST_ADD_PRODUCT = "http://52.136.215.164:9000/api/addproduct";
     static String POST_EDIT_PRODUCT = "http://52.136.215.164:9000/api/editproduct";
-    static int ID_OF_NOT_TEST_PRODUCT = 269;
     static String LOGIN = "test177";
     static String PASSWORD = "test177";
 
     static class testsIDs {
-        static int firstTestID = 269;
-        static int lastTestID = 633;
+        static List<Integer> list = new ArrayList<>();
 
-        static void setFirstID(int ID) {
-            firstTestID = ID;
+        static void addToListID(int ID) {
+            list.add(ID);
         }
+    }
 
-        static void setLastID(int ID) {
-            lastTestID = ID;
-        }
+    static ResponseBodyExtractionOptions GetBody (JSONParams params) {
+        return given().
+                contentType("application/json").
+                body(params.GetParams().toString()).
+                when().
+                post("").
+                then().
+                body("status", equalTo(1))
+                .extract().response();
     }
 
     @Test
@@ -45,6 +55,7 @@ public class watchesTest {
                 and().
                 header("Content-Type", equalTo("application/json"));
         System.out.println("All products response header correct, status 200");
+//        GoodRequests.getGoodByIdThroughApi("1");
     }
 
     @Test
@@ -66,17 +77,10 @@ public class watchesTest {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1))
-                .extract().response();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setFirstID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with valid params added, with ID:" + IDProduct);
     }
 
@@ -86,17 +90,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("title", "тест на русском 177");
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with russian title added, with ID:" + IDProduct);
     }
 
@@ -106,17 +103,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("title", "");
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with empty title added, with ID:" + IDProduct);
     }
 
@@ -126,17 +116,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("category", "16");
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with category out of range added, with ID:" + IDProduct);
     }
 
@@ -146,17 +129,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("category", "-2");
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with negative category added, with ID:" + IDProduct);
     }
 
@@ -165,18 +141,10 @@ public class watchesTest {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
         params.ChangeValue("price", "-100");
-
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with negative price added, with ID:" + IDProduct);
     }
 
@@ -186,17 +154,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("price", "0");
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with zero price added, with ID:" + IDProduct);
     }
 
@@ -206,17 +167,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("price", Integer.MAX_VALUE + 1);
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with MAX price added, overflow of int, with ID:" + IDProduct);
     }
 
@@ -227,17 +181,11 @@ public class watchesTest {
         params.ChangeValue("price", "999");
         params.ChangeValue("old_price", "777");
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
+
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product with old price least then actual added, with ID:" + IDProduct);
     }
 
@@ -247,17 +195,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("status", 0);
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product With Status 0 added, with ID:" + IDProduct);
     }
 
@@ -267,17 +208,10 @@ public class watchesTest {
         JSONParams params = new JSONParams();
         params.ChangeValue("hit", 0);
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product With Hit 0 added, with ID:" + IDProduct);
     }
 
@@ -289,17 +223,10 @@ public class watchesTest {
         params.ChangeValue("title", "IHaveKeys");
         params.PutArrayInKeys();
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
         System.out.println("Product With keys, with ID:" + IDProduct);
     }
 
@@ -308,17 +235,10 @@ public class watchesTest {
         RestAssured.baseURI = POST_ADD_PRODUCT;
         JSONParams params = new JSONParams();
 
-        ResponseBodyExtractionOptions body = given().
-                contentType("application/json").
-                body(params.GetParams().toString()).
-                when().
-                post("").
-                then().
-                body("status", equalTo(1)).
-                extract().body();
+        ResponseBodyExtractionOptions body = GetBody(params);
 
         int IDProduct = body.path("id");
-        testsIDs.setLastID(IDProduct);
+        testsIDs.addToListID(IDProduct);
 
         RestAssured.baseURI = POST_EDIT_PRODUCT;
         params.ChangeValue("id", IDProduct);
@@ -337,10 +257,9 @@ public class watchesTest {
 
     @Test
     public void test99_DeleteAllCreatedTests() {
-        if (testsIDs.firstTestID > ID_OF_NOT_TEST_PRODUCT) {
-            for (int IDtoDelete = testsIDs.firstTestID; IDtoDelete <= testsIDs.lastTestID; IDtoDelete++)
+            for (int IDtoDelete = 0; IDtoDelete < testsIDs.list.size() ; IDtoDelete ++)
                 given().
-                        param("id", IDtoDelete).
+                        param("id", testsIDs.list.get(IDtoDelete)).
                         auth().
                         preemptive().
                         basic(LOGIN, PASSWORD).
@@ -350,5 +269,4 @@ public class watchesTest {
                         assertThat().
                         statusCode(200);
         }
-    }
 }
